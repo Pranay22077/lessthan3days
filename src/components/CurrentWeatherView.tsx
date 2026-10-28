@@ -1,8 +1,15 @@
 import type { CurrentWeather } from '../domain/weather'
 
-function formatTime(value: string, timezone: string) {
-  const date = new Date(`${value}Z`)
-  return new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: timezone }).format(date)
+export function formatProviderLocalTime(value: string) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(value)
+  if (!match) return value
+
+  // Open-Meteo returns `current.time` in the requested location timezone.
+  // Build a UTC date solely to preserve its wall-clock fields while formatting;
+  // converting that local value into the location timezone would shift it twice.
+  const [, year, month, day, hour, minute] = match
+  const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute)))
+  return new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }).format(date)
 }
 
 export function CurrentWeatherView({ weather }: { weather: CurrentWeather }) {
@@ -12,7 +19,7 @@ export function CurrentWeatherView({ weather }: { weather: CurrentWeather }) {
       <div>
         <p className="eyebrow">Current conditions</p>
         <h1 id="weather-heading">{location.name}</h1>
-        <p className="subtle">{[location.region, location.country].filter(Boolean).join(', ')} · {formatTime(weather.observedAt, weather.timezone)}</p>
+        <p className="subtle" data-testid="local-time">{[location.region, location.country].filter(Boolean).join(', ')} · {formatProviderLocalTime(weather.observedAt)}</p>
       </div>
       <span className="condition-symbol" aria-label={weather.condition.label}>{weather.condition.symbol}</span>
     </header>
@@ -29,6 +36,6 @@ export function CurrentWeatherView({ weather }: { weather: CurrentWeather }) {
       <div><dt>Wind</dt><dd>{Math.round(weather.windSpeedKph)} km/h</dd></div>
       <div><dt>UV index</dt><dd>{weather.uvIndex}</dd></div>
     </dl>
-    <footer className="source-note">Updated {formatTime(weather.observedAt, weather.timezone)} · Forecast data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a></footer>
+    <footer className="source-note">Updated {formatProviderLocalTime(weather.observedAt)} · Forecast data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a></footer>
   </main>
 }

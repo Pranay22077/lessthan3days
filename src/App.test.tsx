@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { App } from './App'
+import { CurrentWeatherView } from './components/CurrentWeatherView'
 import type { CurrentWeather, Location, WeatherRepository } from './domain/weather'
 
 const london: Location = { id: '1', name: 'London', region: 'England', country: 'United Kingdom', latitude: 51.5, longitude: -0.12, timezone: 'Europe/London' }
@@ -40,5 +41,12 @@ describe('weather app location flow', () => {
     await user.type(screen.getByLabelText('City or place'), 'NoSuchPlace')
     await user.click(screen.getByRole('button', { name: 'Search' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('No matching locations')
+  })
+
+  it('preserves an Open-Meteo local timestamp outside UTC', () => {
+    const newYork: Location = { ...london, name: 'New York', country: 'United States', timezone: 'America/New_York' }
+    render(<CurrentWeatherView weather={{ ...current, location: newYork, timezone: newYork.timezone, observedAt: '2026-10-29T12:00' }} />)
+    expect(screen.getByTestId('local-time')).toHaveTextContent('12:00')
+    expect(screen.getByTestId('local-time')).not.toHaveTextContent('08:00')
   })
 })
