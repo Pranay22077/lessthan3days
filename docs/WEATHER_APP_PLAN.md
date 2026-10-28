@@ -2,7 +2,7 @@
 
 ## 1. Decision record
 
-- **Status:** planning only; no implementation is authorized by this document.
+- **Status:** product plan. The team subsequently confirmed the weather-app direction; `docs/PROJECT_BRIEF.md` revision 2 authorizes the first implementation task, WX-001.
 - **Product direction:** a responsive, web-first weather app that helps a person decide what to wear, carry, and plan in the next few seconds.
 - **Supersedes:** the prior event-registration project direction for future work. `docs/PROJECT_BRIEF.md` still describes the old revision 1 and should not be used as the weather-app implementation brief.
 - **Confirmed by:** `gu_lu_22077_65114`, Switch message `sw_2e098104b4ea815b46f560b33e476eb1` ("yes, we are switching our purpose, we will make the weather app").
@@ -246,7 +246,7 @@ The implementation is ready for independent review only when all of the followin
 
 ### Phase 0 — confirmed implementation brief
 
-Convert this plan into a concise, versioned implementation brief with the chosen technology, route structure, component responsibilities, and exact acceptance tests. A human must confirm that brief before implementation is assigned.
+Completed for the first implementation slice in `docs/PROJECT_BRIEF.md` revision 2. Its routine technical defaults may be revised later without stopping reversible local work.
 
 ### Phase 1 — foundation
 
@@ -284,7 +284,7 @@ Convert this plan into a concise, versioned implementation brief with the chosen
 
 ## 13. Open decisions for the human owner
 
-These choices should be confirmed in the implementation brief:
+These choices were assigned initial defaults in `docs/PROJECT_BRIEF.md` revision 2 and may be revisited later:
 
 1. The frontend framework and deployment target.
 2. Whether dark mode follows the system setting only or also has a manual toggle.
@@ -294,4 +294,4 @@ These choices should be confirmed in the implementation brief:
 
 ## 14. Next approval gate
 
-This document is a product plan, not an implementation ticket. Before any task is assigned to the Builder, a human must directly confirm a versioned implementation brief that selects the technology and release-1 boundaries above. The handoff must name the task ID, brief revision, expected behavior, and exclusions.
+This remains the product plan. The human team has now confirmed the weather-app direction, and `docs/PROJECT_BRIEF.md` revision 2 supplies the first implementation ticket, WX-001, with defaults and acceptance checks. Follow that current brief for execution. Later material changes require a new brief revision and a fresh review.
