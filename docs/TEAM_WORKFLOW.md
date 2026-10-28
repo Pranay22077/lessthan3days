@@ -14,7 +14,7 @@ Discord has no code working folder. Each Switch agent gets a directory on the co
 
 ## Human and agent sequence
 
-1. A teammate mentions `@relay-planner` with a request. The Planner reads room context and the current brief, asks for missing details, and proposes a numbered revision. A human confirms it.
+1. A teammate mentions `@relay-planner` with a request. The Planner reads room context and the current brief, proposes a sensible revision and defaults, and asks one focused question only when a choice materially affects product behavior, cost, credentials or data exposure. Routine implementation choices are delegated to the Builder.
 2. The Planner mentions `@relay-builder` with the exact revision and acceptance criteria. The Builder works on a feature branch, runs real tests, and reports the commit hash, changed files, test command and result.
 3. A teammate mentions `@relay-reviewer` with that commit hash. The Reviewer checks the same revision in a separate working copy, runs the tests independently, and reports findings or readiness. A failed review goes back to the Builder, with at most two automatic repair cycles.
 4. A human reviews the summary. Only after a direct human request does `@relay-steward` check the reviewed commit, target repo and existing PRs, then prepare or create a draft pull request. Merge remains a human action.
@@ -23,7 +23,7 @@ If the brief or candidate commit changes, the earlier review is stale. Request a
 
 ## Message format for a work request
 
-`@relay-planner Task: <short title>. Goal: <desired behavior>. Constraints: <limits>. Please use docs/PROJECT_BRIEF.md and ask about ambiguities before handing off.`
+`@relay-planner Goal: <desired behavior>. Constraints: <limits>. Use the current brief, propose sensible defaults, and ask only about material blockers.`
 
 ## Message format for a handoff
 
